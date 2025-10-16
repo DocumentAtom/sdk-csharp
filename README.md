@@ -1,131 +1,376 @@
 <img src="https://raw.githubusercontent.com/jchristn/DocumentAtom/refs/heads/main/assets/icon.png" width="256" height="256">
 
-# DocumentAtom
+# DocumentAtom.Sdk
 
-DocumentAtom provides a light, fast library for breaking input documents into constituent parts (atoms), useful for text processing, analysis, and artificial intelligence.
+[![NuGet Version](https://img.shields.io/nuget/v/DocumentAtom.Sdk.svg?style=flat)](https://www.nuget.org/packages/DocumentAtom.Sdk/) [![NuGet](https://img.shields.io/nuget/dt/DocumentAtom.Sdk.svg)](https://www.nuget.org/packages/DocumentAtom.Sdk)
 
-DocumentAtom requires that Tesseract v5.0 be installed on the host.  This is required as certain document types can have embedded images which are parsed using OCR via Tesseract.
+DocumentAtom.Sdk is a C# SDK that provides a simple and efficient way to interact with DocumentAtom server instances. It enables document atomization, type detection, and health monitoring through a clean, async API.
 
-| Package | Version | Downloads |
-|---------|---------|-----------|
-| DocumentAtom.Csv | [![NuGet Version](https://img.shields.io/nuget/v/DocumentAtom.Csv.svg?style=flat)](https://www.nuget.org/packages/DocumentAtom.Csv/) | [![NuGet](https://img.shields.io/nuget/dt/DocumentAtom.Csv.svg)](https://www.nuget.org/packages/DocumentAtom.Csv)  |
-| DocumentAtom.Excel | [![NuGet Version](https://img.shields.io/nuget/v/DocumentAtom.Excel.svg?style=flat)](https://www.nuget.org/packages/DocumentAtom.Excel/) | [![NuGet](https://img.shields.io/nuget/dt/DocumentAtom.Excel.svg)](https://www.nuget.org/packages/DocumentAtom.Excel)  |
-| DocumentAtom.Html | [![NuGet Version](https://img.shields.io/nuget/v/DocumentAtom.Html.svg?style=flat)](https://www.nuget.org/packages/DocumentAtom.Html/) | [![NuGet](https://img.shields.io/nuget/dt/DocumentAtom.Html.svg)](https://www.nuget.org/packages/DocumentAtom.Html)  |
-| DocumentAtom.Image | [![NuGet Version](https://img.shields.io/nuget/v/DocumentAtom.Image.svg?style=flat)](https://www.nuget.org/packages/DocumentAtom.Image/) | [![NuGet](https://img.shields.io/nuget/dt/DocumentAtom.Image.svg)](https://www.nuget.org/packages/DocumentAtom.Image)  |
-| DocumentAtom.Json | [![NuGet Version](https://img.shields.io/nuget/v/DocumentAtom.Json.svg?style=flat)](https://www.nuget.org/packages/DocumentAtom.Json/) | [![NuGet](https://img.shields.io/nuget/dt/DocumentAtom.Json.svg)](https://www.nuget.org/packages/DocumentAtom.Json)  |
-| DocumentAtom.Markdown | [![NuGet Version](https://img.shields.io/nuget/v/DocumentAtom.Markdown.svg?style=flat)](https://www.nuget.org/packages/DocumentAtom.Markdown/) | [![NuGet](https://img.shields.io/nuget/dt/DocumentAtom.Markdown.svg)](https://www.nuget.org/packages/DocumentAtom.Markdown)  |
-| DocumentAtom.Pdf | [![NuGet Version](https://img.shields.io/nuget/v/DocumentAtom.Pdf.svg?style=flat)](https://www.nuget.org/packages/DocumentAtom.Pdf/) | [![NuGet](https://img.shields.io/nuget/dt/DocumentAtom.Pdf.svg)](https://www.nuget.org/packages/DocumentAtom.Pdf)  |
-| DocumentAtom.PowerPoint | [![NuGet Version](https://img.shields.io/nuget/v/DocumentAtom.PowerPoint.svg?style=flat)](https://www.nuget.org/packages/DocumentAtom.PowerPoint/) | [![NuGet](https://img.shields.io/nuget/dt/DocumentAtom.PowerPoint.svg)](https://www.nuget.org/packages/DocumentAtom.PowerPoint)  |
-| DocumentAtom.Ocr | [![NuGet Version](https://img.shields.io/nuget/v/DocumentAtom.Ocr.svg?style=flat)](https://www.nuget.org/packages/DocumentAtom.Ocr/) | [![NuGet](https://img.shields.io/nuget/dt/DocumentAtom.Ocr.svg)](https://www.nuget.org/packages/DocumentAtom.Ocr)  |
-| DocumentAtom.RichText | [![NuGet Version](https://img.shields.io/nuget/v/DocumentAtom.RichText.svg?style=flat)](https://www.nuget.org/packages/DocumentAtom.RichText/) | [![NuGet](https://img.shields.io/nuget/dt/DocumentAtom.RichText.svg)](https://www.nuget.org/packages/DocumentAtom.RichText)  |
-| DocumentAtom.Text | [![NuGet Version](https://img.shields.io/nuget/v/DocumentAtom.Text.svg?style=flat)](https://www.nuget.org/packages/DocumentAtom.Text/) | [![NuGet](https://img.shields.io/nuget/dt/DocumentAtom.Text.svg)](https://www.nuget.org/packages/DocumentAtom.Text)  |
-| DocumentAtom.TypeDetection | [![NuGet Version](https://img.shields.io/nuget/v/DocumentAtom.TypeDetection.svg?style=flat)](https://www.nuget.org/packages/DocumentAtom.TypeDetection/) | [![NuGet](https://img.shields.io/nuget/dt/DocumentAtom.TypeDetection.svg)](https://www.nuget.org/packages/DocumentAtom.TypeDetection)  |
-| DocumentAtom.Word | [![NuGet Version](https://img.shields.io/nuget/v/DocumentAtom.Word.svg?style=flat)](https://www.nuget.org/packages/DocumentAtom.Word/) | [![NuGet](https://img.shields.io/nuget/dt/DocumentAtom.Word.svg)](https://www.nuget.org/packages/DocumentAtom.Word)  |
-| DocumentAtom.Xml | [![NuGet Version](https://img.shields.io/nuget/v/DocumentAtom.Xml.svg?style=flat)](https://www.nuget.org/packages/DocumentAtom.Xml/) | [![NuGet](https://img.shields.io/nuget/dt/DocumentAtom.Xml.svg)](https://www.nuget.org/packages/DocumentAtom.Xml)  |
+## Overview
 
-## New in v1.1.x
+DocumentAtom.Sdk allows you to:
+- **Process Documents**: Extract atoms from various document formats (PDF, Word, Excel, PowerPoint, HTML, Markdown, etc.)
+- **Detect Document Types**: Automatically identify document types based on content analysis
+- **Monitor Health**: Check server status and health
+- **Async Operations**: Full async/await support for all operations
 
-- Hierarchical atomization (see `BuildHierarchy` in settings) - heading-based for markdown/HTML/Word, page-based for PowerPoint
-- Support for CSV, JSON, and XML documents
-- Dependency updates and fixes
+## Installation
 
-## Motivation
+Install the package via NuGet:
 
-Parsing documents and extracting constituent parts is one part science and one part black magic.  If you find ways to improve processing and extraction in any way that is horizontally useful, I'd would love your feedback on ways to make this library more accurate, more useful, faster, and overall better.  My goal in building this library is to make it easier to analyze input data assets and make them more consumable by other systems including analytics and artificial intelligence.
+```bash
+Install-Package DocumentAtom.Sdk
+```
 
-## Bugs, Quality, Feedback, or Enhancement Requests
+Or via .NET CLI:
 
-Please feel free to file issues, enhancement requests, or start discussions about use of the library, improvements, or fixes.  
+```bash
+dotnet add package DocumentAtom.Sdk
+```
 
-## Types Supported
+## Quick Start
 
-DocumentAtom supports the following input file types:
-- CSV
-- HTML
-- JSON
-- Markdown
-- Microsoft Word (.docx)
-- Microsoft Excel (.xlsx)
-- Microsoft PowerPoint (.pptx)
-- PNG images (**requires Tesseract on the host**)
-- PDF
-- Rich text (.rtf)
-- Text
-- XML
-
-## Simple Example 
-
-Refer to the various `Test` projects for working examples.
-
-The following example shows processing a markdown (`.md`) file.
+### Basic Usage
 
 ```csharp
+using DocumentAtom.Sdk;
 using DocumentAtom.Core.Atoms;
-using DocumentAtom.Markdown;
 
-MarkdownProcessorSettings settings = new MarkdownProcessorSettings();
-MarkdownProcessor processor = new MarkdownProcessor(_Settings);
-foreach (Atom atom in processor.Extract(filename))
-    Console.WriteLine(atom.ToString());
+// Initialize the SDK
+var sdk = new DocumentAtomSdk("http://localhost:8000");
+
+// Check server health
+bool isHealthy = await sdk.Health.IsHealthy();
+Console.WriteLine($"Server is healthy: {isHealthy}");
+
+// Process a document
+byte[] documentData = await File.ReadAllBytesAsync("document.pdf");
+List<Atom>? atoms = await sdk.Atom.ProcessPdf(documentData);
+
+if (atoms != null)
+{
+    foreach (var atom in atoms)
+    {
+        Console.WriteLine($"Atom Type: {atom.Type}, Content: {atom.Text}");
+    }
+}
+```
+
+
+### With Logging
+
+```csharp
+var sdk = new DocumentAtomSdk("http://localhost:8000");
+sdk.LogRequests = true;
+sdk.LogResponses = true;
+sdk.Logger = (severity, message) => Console.WriteLine($"[{severity}] {message}");
+```
+
+## API Reference
+
+### DocumentAtomSdk Class
+
+The main SDK class that provides access to all functionality.
+
+#### Constructor
+
+```csharp
+public DocumentAtomSdk(string endpoint)
+```
+
+- `endpoint`: DocumentAtom server endpoint URL
+
+#### Properties
+
+- `Endpoint`: Server endpoint URL
+- `TimeoutMs`: Request timeout in milliseconds (default: 300000)
+- `LogRequests`: Enable request logging
+- `LogResponses`: Enable response logging
+- `Logger`: Custom logger delegate
+
+#### Main API Groups
+
+- `Atom`: Document processing methods
+- `TypeDetection`: Document type detection
+- `Health`: Server health and status
+
+### Document Processing (Atom Methods)
+
+Process various document types and extract atoms:
+
+#### Supported Document Types
+
+- **CSV**: `ProcessCsv(byte[] data, bool extractOcr = false)`
+- **Excel**: `ProcessExcel(byte[] data, bool extractOcr = false)`
+- **HTML**: `ProcessHtml(byte[] data)`
+- **JSON**: `ProcessJson(byte[] data)`
+- **Markdown**: `ProcessMarkdown(byte[] data)`
+- **OCR**: `ProcessOcr(byte[] data)`
+- **PDF**: `ProcessPdf(byte[] data, bool extractOcr = false)`
+- **PNG**: `ProcessPng(byte[] data)`
+- **PowerPoint**: `ProcessPowerPoint(byte[] data, bool extractOcr = false)`
+- **RTF**: `ProcessRtf(byte[] data, bool extractOcr = false)`
+- **Text**: `ProcessText(byte[] data)`
+- **Word**: `ProcessWord(byte[] data, bool extractOcr = false)`
+- **XML**: `ProcessXml(byte[] data)`
+
+#### Example: Processing Multiple Document Types
+
+```csharp
+// Process a PDF document
+byte[] pdfData = await File.ReadAllBytesAsync("document.pdf");
+List<Atom>? pdfAtoms = await sdk.Atom.ProcessPdf(pdfData, extractOcr: true);
+
+// Process a Word document
+byte[] wordData = await File.ReadAllBytesAsync("document.docx");
+List<Atom>? wordAtoms = await sdk.Atom.ProcessWord(wordData, extractOcr: true);
+
+// Process an Excel spreadsheet
+byte[] excelData = await File.ReadAllBytesAsync("spreadsheet.xlsx");
+List<Atom>? excelAtoms = await sdk.Atom.ProcessExcel(excelData);
+```
+
+### Type Detection
+
+Automatically detect document types:
+
+```csharp
+// Detect document type
+byte[] documentData = await File.ReadAllBytesAsync("unknown-document");
+TypeResult? result = await sdk.TypeDetection.DetectType(documentData);
+
+if (result != null)
+{
+    Console.WriteLine($"MIME Type: {result.MimeType}");
+    Console.WriteLine($"Extension: {result.Extension}");
+    Console.WriteLine($"Document Type: {result.Type}");
+}
+
+// With content type hint
+TypeResult? resultWithHint = await sdk.TypeDetection.DetectType(
+    documentData, 
+    contentType: "application/pdf"
+);
+```
+
+### Health Monitoring
+
+Check server health and status:
+
+```csharp
+// Check if server is healthy
+bool isHealthy = await sdk.Health.IsHealthy();
+
+// Get server status
+string? status = await sdk.Health.GetStatus();
+Console.WriteLine($"Server status: {status}");
 ```
 
 ## Atom Types
 
-DocumentAtom parses input data assets into a variety of `Atom` objects.  Each `Atom` includes top-level metadata including:
-- `ParentGUID` - globally-unique identifier of the parent atom, or, null
-- `GUID` - globally-unique identifier
-- `Type` - including `Text`, `Image`, `Binary`, `Table`, and `List`
-- `PageNumber` - where available; some document types do not explicitly indicate page numbers, and page numbers are inferred when rendered
-- `Position` - the ordinal position of the `Atom`, relative to others
-- `Length` - the length of the `Atom`'s content
-- `MD5Hash` - the MD5 hash of the `Atom` content
-- `SHA1Hash` - the SHA1 hash of the `Atom` content
-- `SHA256Hash` - the SHA256 hash of the `Atom` content
-- `Quarks` - sub-atomic particles created from the `Atom` content, for instance, when chunking text
+The SDK returns `Atom` objects that contain structured document content:
 
-The `AtomBase` class provides the aforementioned metadata, and several type-specific `Atom`s are returned from the various processors, including:
-- `BinaryAtom` - includes a `Bytes` property
-- `DocxAtom` - includes `Text`, `HeaderLevel`, `UnorderedList`, `OrderedList`, `Table`, and `Binary` properties
-- `ImageAtom` - includes `BoundingBox`, `Text`, `UnorderedList`, `OrderedList`, `Table`, and `Binary` properties
-- `MarkdownAtom` - includes `Formatting`, `Text`, `UnorderedList`, `OrderedList`, and `Table` properties
-- `PdfAtom` - includes `BoundingBox`, `Text`, `UnorderedList`, `OrderedList`, `Table`, and `Binary` properties
-- `PptxAtom` - includes `Title`, `Subtitle`, `Text`, `UnorderedList`, `OrderedList`, `Table`, and `Binary` properties
-- `TableAtom` - includes `Rows`, `Columns`, `Irregular`, and `Table` properties
-- `TextAtom` - includes `Text`
-- `XlsxAtom` - includes `SheetName`, `CellIdentifier`, `Text`, `Table`, and `Binary` properties
+### Atom Properties
 
-`Table` objects inside of `Atom` objects are always presented as `SerializableDataTable` objects (see [SerializableDataTable](https://github.com/jchristn/serializabledatatable) for more information) to provide simple serialization and conversion to native `System.Data.DataTable` objects.
+- `GUID`: Unique identifier
+- `ParentGUID`: Parent atom identifier (for hierarchical structures)
+- `Type`: Atom type (Text, Image, Binary, Table, List)
+- `PageNumber`: Page number where available
+- `Position`: Ordinal position
+- `Length`: Content length
+- `Text`: Text content
+- `MD5Hash`, `SHA1Hash`, `SHA256Hash`: Content hashes
+- `Quarks`: Sub-atomic particles (chunks)
 
-## Underlying Libraries
+### Specialized Atom Types
 
-DocumentAtom is built on the shoulders of several libraries, without which, this work would not be possible.
+- `TableAtom`: Contains table data with rows and columns
+- `ImageAtom`: Contains image data and OCR text
+- `BinaryAtom`: Contains binary data
+- `ListAtom`: Contains ordered or unordered lists
 
-- [CsvHelper](https://github.com/JoshClose/CsvHelper)
-- [DocumentFormat.OpenXml](https://github.com/dotnet/Open-XML-SDK)
-- [HTML Agility Pack](https://github.com/zzzprojects/html-agility-pack)
-- [PdfPig](https://github.com/UglyToad/PdfPig)
-- [RtfPipe](github.com/erdomke/RtfPipe)
-- [SixLabors.ImageSharp](https://github.com/SixLabors/ImageSharp)
-- [Tabula](https://github.com/BobLd/tabula-sharp)
-- [Tesseract](https://github.com/charlesw/tesseract/)
+## Error Handling
 
-Each of these libraries were integrated as NuGet packages, and no source was included or modified from these packages.
+The SDK handles errors gracefully and returns null for failed operations:
 
-My libraries used within DocumentAtom:
+```csharp
+try
+{
+    List<Atom>? atoms = await sdk.Atom.ProcessPdf(documentData);
+    
+    if (atoms == null)
+    {
+        Console.WriteLine("Failed to process document or no atoms extracted");
+    }
+    else
+    {
+        Console.WriteLine($"Successfully extracted {atoms.Count} atoms");
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Error: {ex.Message}");
+}
+```
 
-- [SerializableDataTable](https://github.com/jchristn/serializabledatatable)
-- [SerializationHelper](https://github.com/jchristn/serializationhelper)
+## Configuration
 
-## RESTful API and Docker
+### Timeout Configuration
 
-Run the `DocumentAtom.Server` project to start a RESTful server listening on `localhost:8000`.  Modify the `documentatom.json` file to change the webserver, logging, or Tesseract settings.  Alternatively, you can pull `jchristn/documentatom` from [Docker Hub](https://hub.docker.com/repository/docker/jchristn/documentatom/general).  Refer to the `Docker` directory in the project for assets for running in Docker.
+```csharp
+var sdk = new DocumentAtomSdk("http://localhost:8000");
+sdk.TimeoutMs = 600000; // 10 minutes
+```
 
-Refer to the Postman collection for examples exercising the APIs.
+### Logging Configuration
+
+```csharp
+var sdk = new DocumentAtomSdk("http://localhost:8000");
+sdk.LogRequests = true;
+sdk.LogResponses = true;
+sdk.Logger = (severity, message) => 
+{
+    // Custom logging implementation
+    File.AppendAllText("sdk.log", $"[{DateTime.UtcNow}] [{severity}] {message}\n");
+};
+```
+
+## Server Requirements
+
+The SDK requires a running DocumentAtom server instance. You can:
+
+1. **Run locally**: Start the DocumentAtom.Server project
+2. **Use Docker**: Pull and run the `jchristn/documentatom` Docker image
+3. **Deploy**: Deploy to your preferred hosting environment
+
+### Server Setup
+
+```bash
+# Using Docker
+docker run -p 8000:8000 jchristn/documentatom
+
+# Or run the DocumentAtom.Server project locally
+# Default endpoint: http://localhost:8000
+```
+
+## Examples
+
+### Complete Example: Document Processing Pipeline
+
+```csharp
+using DocumentAtom.Sdk;
+using DocumentAtom.Core.Atoms;
+
+public class DocumentProcessor
+{
+    private readonly DocumentAtomSdk _sdk;
+    
+    public DocumentProcessor(string endpoint)
+    {
+        _sdk = new DocumentAtomSdk(endpoint);
+        _sdk.Logger = (severity, message) => Console.WriteLine($"[{severity}] {message}");
+    }
+    
+    public async Task ProcessDocumentAsync(string filePath)
+    {
+        try
+        {
+            // Check server health
+            if (!await _sdk.Health.IsHealthy())
+            {
+                throw new Exception("DocumentAtom server is not healthy");
+            }
+            
+            // Read document
+            byte[] documentData = await File.ReadAllBytesAsync(filePath);
+            
+            // Detect document type
+            TypeResult? typeResult = await _sdk.TypeDetection.DetectType(documentData);
+            Console.WriteLine($"Detected type: {typeResult?.Type}");
+            
+            // Process based on type
+            List<Atom>? atoms = typeResult?.Type switch
+            {
+                DocumentTypeEnum.Pdf => await _sdk.Atom.ProcessPdf(documentData, extractOcr: true),
+                DocumentTypeEnum.Word => await _sdk.Atom.ProcessWord(documentData, extractOcr: true),
+                DocumentTypeEnum.Excel => await _sdk.Atom.ProcessExcel(documentData),
+                DocumentTypeEnum.PowerPoint => await _sdk.Atom.ProcessPowerPoint(documentData, extractOcr: true),
+                DocumentTypeEnum.Html => await _sdk.Atom.ProcessHtml(documentData),
+                DocumentTypeEnum.Markdown => await _sdk.Atom.ProcessMarkdown(documentData),
+                DocumentTypeEnum.Json => await _sdk.Atom.ProcessJson(documentData),
+                DocumentTypeEnum.Xml => await _sdk.Atom.ProcessXml(documentData),
+                DocumentTypeEnum.Csv => await _sdk.Atom.ProcessCsv(documentData),
+                DocumentTypeEnum.Text => await _sdk.Atom.ProcessText(documentData),
+                DocumentTypeEnum.Rtf => await _sdk.Atom.ProcessRtf(documentData, extractOcr: true),
+                DocumentTypeEnum.Png => await _sdk.Atom.ProcessPng(documentData),
+                _ => throw new NotSupportedException($"Document type {typeResult?.Type} is not supported")
+            };
+            
+            if (atoms != null)
+            {
+                Console.WriteLine($"Extracted {atoms.Count} atoms from {filePath}");
+                
+                // Process atoms
+                foreach (var atom in atoms)
+                {
+                    ProcessAtom(atom);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error processing {filePath}: {ex.Message}");
+        }
+    }
+    
+    private void ProcessAtom(Atom atom)
+    {
+        Console.WriteLine($"Atom: {atom.Type} - {atom.Text?.Substring(0, Math.Min(100, atom.Text.Length ?? 0))}...");
+        
+        // Process based on atom type
+        switch (atom.Type)
+        {
+            case AtomTypeEnum.Table:
+                Console.WriteLine($"  Table: {atom.Rows} rows, {atom.Columns} columns");
+                break;
+            case AtomTypeEnum.Image:
+                Console.WriteLine($"  Image: {atom.Binary?.Length ?? 0} bytes");
+                break;
+            case AtomTypeEnum.Text:
+                Console.WriteLine($"  Text: {atom.Text?.Length ?? 0} characters");
+                break;
+        }
+    }
+    
+    public void Dispose()
+    {
+        _sdk?.Dispose();
+    }
+}
+```
+
+## Dependencies
+
+- **DocumentAtom**: Core document processing library
+- **DocumentAtom.TypeDetection**: Document type detection
+- **RestWrapper**: HTTP client wrapper
+- **System.Text.Json**: JSON serialization
 
 ## Version History
 
-Please refer to ```CHANGELOG.md``` for version history.
+Please refer to `CHANGELOG.md` for version history.
 
-## Thanks
+## Contributing
 
-Special thanks to iconduck.com and the content authors for producing this [icon](https://iconduck.com/icons/27054/atom).
+Contributions are welcome! Please feel free to submit issues, enhancement requests, or pull requests.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Support
+
+For support, please:
+1. Check the [DocumentAtom documentation](https://github.com/jchristn/DocumentAtom)
+2. Review the test projects in the solution
+3. File an issue in the repository
