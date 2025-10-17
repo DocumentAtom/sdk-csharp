@@ -6,6 +6,8 @@
 
 DocumentAtom.Sdk is a C# SDK that provides a simple and efficient way to interact with DocumentAtom server instances. It enables document atomization, type detection, and health monitoring through a clean, async API.
 
+**IMPORTANT** - DocumentAtom.Sdk assumes you have deployed the DocumentAtom REST server.  If you are integrating a DocumentAtom library directly into your code, use of this SDK is not necessary.
+
 ## Overview
 
 DocumentAtom.Sdk allows you to:
