@@ -360,7 +360,7 @@ public class DocumentProcessor
 
 ## Version History
 
-Please refer to `CHANGELOG.md` for version history.
+Please refer to [CHANGELOG.md](CHANGELOG.md) for version history.
 
 ## Contributing
 
