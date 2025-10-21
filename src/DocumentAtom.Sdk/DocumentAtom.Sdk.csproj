@@ -8,7 +8,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>DocumentAtom.Sdk</PackageId>
     <Version>1.0.0</Version>
-    <Authors>DocumentAtom Team</Authors>
+    <Authors>Joel Christner</Authors>
     <Description>C# SDK for DocumentAtom - Document atomization and processing library</Description>
     <PackageProjectUrl>https://github.com/documentatom/documentatom</PackageProjectUrl>
     <RepositoryUrl>https://github.com/documentatom/documentatom</RepositoryUrl>
