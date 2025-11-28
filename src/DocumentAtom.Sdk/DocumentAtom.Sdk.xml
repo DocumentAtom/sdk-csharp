@@ -6,8 +6,7 @@
     <members>
         <member name="T:DocumentAtom.Sdk.DocumentAtomSdk">
             <summary>
-            DocumentAtom SDK client.
-            The DocumentAtom client provides a clean interface for consuming the DocumentAtom REST API server.
+            DocumentAtom SDK for interacting with DocumentAtom server.
             </summary>
         </member>
         <member name="P:DocumentAtom.Sdk.DocumentAtomSdk.LogRequests">
@@ -25,24 +24,24 @@
             Method to invoke to send log messages.
             </summary>
         </member>
-        <member name="P:DocumentAtom.Sdk.DocumentAtomSdk.Header">
-            <summary>
-            Header to prepend to log messages.
-            </summary>
-        </member>
         <member name="P:DocumentAtom.Sdk.DocumentAtomSdk.Endpoint">
             <summary>
-            Base URL of the DocumentAtom server.
+            Endpoint URL for the DocumentAtom server.
             </summary>
         </member>
         <member name="P:DocumentAtom.Sdk.DocumentAtomSdk.TimeoutMs">
             <summary>
-            Timeout, in milliseconds. Default is 30 seconds.
+            Timeout in milliseconds for HTTP requests.
+            </summary>
+        </member>
+        <member name="P:DocumentAtom.Sdk.DocumentAtomSdk.AccessKey">
+            <summary>
+            Access key for authentication (if required).
             </summary>
         </member>
         <member name="P:DocumentAtom.Sdk.DocumentAtomSdk.Atom">
             <summary>
-            Atom processing methods.
+            Document atomization methods.
             </summary>
         </member>
         <member name="P:DocumentAtom.Sdk.DocumentAtomSdk.TypeDetection">
@@ -55,71 +54,69 @@
             Health check methods.
             </summary>
         </member>
-        <member name="M:DocumentAtom.Sdk.DocumentAtomSdk.#ctor(System.String,System.Int32)">
+        <member name="M:DocumentAtom.Sdk.DocumentAtomSdk.#ctor(System.String,System.String)">
             <summary>
-            Instantiate DocumentAtom C# SDK client.
+            Initialize the DocumentAtom SDK.
             </summary>
-            <param name="endpoint">Base URL of the DocumentAtom server.</param>
-            <param name="timeoutSeconds">Request timeout in seconds.</param>
-        </member>
-        <member name="M:DocumentAtom.Sdk.DocumentAtomSdk.Dispose(System.Boolean)">
-            <summary>
-            Dispose of the object.
-            </summary>
-            <param name="disposing">Disposing of resources.</param>
+            <param name="endpoint">DocumentAtom server endpoint URL.</param>
+            <param name="accessKey">Optional access key for authentication.</param>
         </member>
         <member name="M:DocumentAtom.Sdk.DocumentAtomSdk.Dispose">
             <summary>
-            Tear down the client and dispose of resources.
+            Dispose of the SDK and clean up resources.
             </summary>
+        </member>
+        <member name="M:DocumentAtom.Sdk.DocumentAtomSdk.Dispose(System.Boolean)">
+            <summary>
+            Dispose of the SDK and clean up resources.
+            </summary>
+            <param name="disposing">True if disposing.</param>
         </member>
         <member name="M:DocumentAtom.Sdk.DocumentAtomSdk.Log(DocumentAtom.Core.Enums.SeverityEnum,System.String)">
             <summary>
-            Emit a log message.
+            Log a message using the configured logger.
             </summary>
-            <param name="sev">Severity.</param>
-            <param name="msg">Message.</param>
+            <param name="severity">Log severity level.</param>
+            <param name="message">Message to log.</param>
         </member>
         <member name="M:DocumentAtom.Sdk.DocumentAtomSdk.PostAsync``1(System.String,System.Byte[],System.Threading.CancellationToken)">
             <summary>
-            Execute a POST request with binary data.
+            Send a POST request with binary data and return typed response.
             </summary>
             <typeparam name="T">Response type.</typeparam>
-            <param name="url">URL endpoint.</param>
+            <param name="url">Full URL to send request to.</param>
             <param name="data">Binary data to send.</param>
-            <param name="token">Cancellation token.</param>
-            <returns>Deserialized response object.</returns>
+            <param name="cancellationToken">Cancellation token.</param>
+            <returns>Deserialized response of type T.</returns>
         </member>
         <member name="M:DocumentAtom.Sdk.DocumentAtomSdk.GetAsync``1(System.String,System.Threading.CancellationToken)">
             <summary>
-            Execute a GET request.
+            Send a GET request and return typed response.
             </summary>
             <typeparam name="T">Response type.</typeparam>
-            <param name="url">URL endpoint.</param>
-            <param name="token">Cancellation token.</param>
-            <returns>Deserialized response object.</returns>
+            <param name="url">Full URL to send request to.</param>
+            <param name="cancellationToken">Cancellation token.</param>
+            <returns>Deserialized response of type T.</returns>
         </member>
         <member name="M:DocumentAtom.Sdk.DocumentAtomSdk.GetAsync(System.String,System.Threading.CancellationToken)">
             <summary>
-            Execute a GET request and return raw string response.
+            Send a GET request and return string response.
             </summary>
-            <param name="url">URL endpoint.</param>
-            <param name="token">Cancellation token.</param>
-            <returns>Raw response string.</returns>
+            <param name="url">Full URL to send request to.</param>
+            <param name="cancellationToken">Cancellation token.</param>
+            <returns>Response as string.</returns>
         </member>
         <member name="M:DocumentAtom.Sdk.DocumentAtomSdk.GetSuccessAsync(System.String,System.Threading.CancellationToken)">
             <summary>
-            Check if a GET request returns success status.
+            Send a GET request and return success status.
             </summary>
-            <param name="url">URL endpoint.</param>
-            <param name="token">Cancellation token.</param>
-            <returns>True if successful.</returns>
+            <param name="url">Full URL to send request to.</param>
+            <param name="cancellationToken">Cancellation token.</param>
+            <returns>True if successful (2xx status code).</returns>
         </member>
         <member name="M:DocumentAtom.Sdk.DocumentAtomSdk.ReadResponse(RestWrapper.RestResponse,System.String,System.Threading.CancellationToken)">
             <summary>
             Read response data from RestResponse, handling both chunked and non-chunked responses.
-            Do not use this method if you need to iterate over the response chunk by chunk.
-            This method encodes incoming byte data as UTF-8 strings and should not be used for scenarios where binary data is required.
             </summary>
             <param name="resp">REST response.</param>
             <param name="url">URL from the request, useful for logging.</param>
@@ -128,14 +125,14 @@
         </member>
         <member name="T:DocumentAtom.Sdk.Implementations.AtomMethods">
             <summary>
-            Atom processing methods implementation.
+            Implementation of document atomization methods.
             </summary>
         </member>
         <member name="M:DocumentAtom.Sdk.Implementations.AtomMethods.#ctor(DocumentAtom.Sdk.DocumentAtomSdk)">
             <summary>
-            Instantiate atom methods.
+            Initialize the atom methods implementation.
             </summary>
-            <param name="sdk">DocumentAtom SDK.</param>
+            <param name="sdk">DocumentAtom SDK instance.</param>
         </member>
         <member name="M:DocumentAtom.Sdk.Implementations.AtomMethods.ProcessCsv(System.Byte[],System.Boolean,System.Threading.CancellationToken)">
             <inheritdoc />
@@ -143,7 +140,7 @@
         <member name="M:DocumentAtom.Sdk.Implementations.AtomMethods.ProcessExcel(System.Byte[],System.Boolean,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:DocumentAtom.Sdk.Implementations.AtomMethods.ProcessHtml(System.Byte[],System.Boolean,System.Threading.CancellationToken)">
+        <member name="M:DocumentAtom.Sdk.Implementations.AtomMethods.ProcessHtml(System.Byte[],System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:DocumentAtom.Sdk.Implementations.AtomMethods.ProcessJson(System.Byte[],System.Threading.CancellationToken)">
@@ -178,14 +175,14 @@
         </member>
         <member name="T:DocumentAtom.Sdk.Implementations.HealthMethods">
             <summary>
-            Health check methods implementation.
+            Implementation of health check methods.
             </summary>
         </member>
         <member name="M:DocumentAtom.Sdk.Implementations.HealthMethods.#ctor(DocumentAtom.Sdk.DocumentAtomSdk)">
             <summary>
-            Instantiate health methods.
+            Initialize the health methods implementation.
             </summary>
-            <param name="sdk">DocumentAtom SDK.</param>
+            <param name="sdk">DocumentAtom SDK instance.</param>
         </member>
         <member name="M:DocumentAtom.Sdk.Implementations.HealthMethods.IsHealthy(System.Threading.CancellationToken)">
             <inheritdoc />
@@ -195,133 +192,132 @@
         </member>
         <member name="T:DocumentAtom.Sdk.Implementations.TypeDetectionMethods">
             <summary>
-            Type detection methods implementation.
+            Implementation of type detection methods.
             </summary>
         </member>
         <member name="M:DocumentAtom.Sdk.Implementations.TypeDetectionMethods.#ctor(DocumentAtom.Sdk.DocumentAtomSdk)">
             <summary>
-            Instantiate type detection methods.
+            Initialize the type detection methods implementation.
             </summary>
-            <param name="sdk">DocumentAtom SDK.</param>
+            <param name="sdk">DocumentAtom SDK instance.</param>
         </member>
         <member name="M:DocumentAtom.Sdk.Implementations.TypeDetectionMethods.DetectType(System.Byte[],System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:DocumentAtom.Sdk.Interfaces.IAtomMethods">
             <summary>
-            Interface for atom processing methods.
+            Interface for document atomization methods.
             </summary>
         </member>
         <member name="M:DocumentAtom.Sdk.Interfaces.IAtomMethods.ProcessCsv(System.Byte[],System.Boolean,System.Threading.CancellationToken)">
             <summary>
             Process CSV document and extract atoms.
             </summary>
-            <param name="data">CSV file data.</param>
-            <param name="extractOcr">Whether to extract atoms from images using OCR.</param>
+            <param name="data">CSV file data as byte array.</param>
+            <param name="extractOcr">Whether to extract text from images using OCR.</param>
             <param name="cancellationToken">Cancellation token.</param>
-            <returns>List of atoms.</returns>
+            <returns>List of extracted atoms.</returns>
         </member>
         <member name="M:DocumentAtom.Sdk.Interfaces.IAtomMethods.ProcessExcel(System.Byte[],System.Boolean,System.Threading.CancellationToken)">
             <summary>
             Process Excel document and extract atoms.
             </summary>
-            <param name="data">Excel file data.</param>
-            <param name="extractOcr">Whether to extract atoms from images using OCR.</param>
+            <param name="data">Excel file data as byte array.</param>
+            <param name="extractOcr">Whether to extract text from images using OCR.</param>
             <param name="cancellationToken">Cancellation token.</param>
-            <returns>List of atoms.</returns>
+            <returns>List of extracted atoms.</returns>
         </member>
-        <member name="M:DocumentAtom.Sdk.Interfaces.IAtomMethods.ProcessHtml(System.Byte[],System.Boolean,System.Threading.CancellationToken)">
+        <member name="M:DocumentAtom.Sdk.Interfaces.IAtomMethods.ProcessHtml(System.Byte[],System.Threading.CancellationToken)">
             <summary>
             Process HTML document and extract atoms.
             </summary>
-            <param name="data">HTML file data.</param>
-            <param name="extractOcr">Whether to extract atoms from images using OCR.</param>
+            <param name="data">HTML file data as byte array.</param>
             <param name="cancellationToken">Cancellation token.</param>
-            <returns>List of atoms.</returns>
+            <returns>List of extracted atoms.</returns>
         </member>
         <member name="M:DocumentAtom.Sdk.Interfaces.IAtomMethods.ProcessJson(System.Byte[],System.Threading.CancellationToken)">
             <summary>
             Process JSON document and extract atoms.
             </summary>
-            <param name="data">JSON file data.</param>
+            <param name="data">JSON file data as byte array.</param>
             <param name="cancellationToken">Cancellation token.</param>
-            <returns>List of atoms.</returns>
+            <returns>List of extracted atoms.</returns>
         </member>
         <member name="M:DocumentAtom.Sdk.Interfaces.IAtomMethods.ProcessMarkdown(System.Byte[],System.Threading.CancellationToken)">
             <summary>
             Process Markdown document and extract atoms.
             </summary>
-            <param name="data">Markdown file data.</param>
+            <param name="data">Markdown file data as byte array.</param>
             <param name="cancellationToken">Cancellation token.</param>
-            <returns>List of atoms.</returns>
+            <returns>List of extracted atoms.</returns>
         </member>
         <member name="M:DocumentAtom.Sdk.Interfaces.IAtomMethods.ProcessOcr(System.Byte[],System.Threading.CancellationToken)">
             <summary>
-            Process OCR on image data and extract atoms.
+            Process OCR on image and extract atoms.
             </summary>
-            <param name="data">Image file data.</param>
+            <param name="data">Image file data as byte array.</param>
             <param name="cancellationToken">Cancellation token.</param>
-            <returns>List of atoms.</returns>
+            <returns>List of extracted atoms.</returns>
         </member>
         <member name="M:DocumentAtom.Sdk.Interfaces.IAtomMethods.ProcessPdf(System.Byte[],System.Boolean,System.Threading.CancellationToken)">
             <summary>
             Process PDF document and extract atoms.
             </summary>
-            <param name="data">PDF file data.</param>
-            <param name="extractOcr">Whether to extract atoms from images using OCR.</param>
+            <param name="data">PDF file data as byte array.</param>
+            <param name="extractOcr">Whether to extract text from images using OCR.</param>
             <param name="cancellationToken">Cancellation token.</param>
-            <returns>List of atoms.</returns>
+            <returns>List of extracted atoms.</returns>
         </member>
         <member name="M:DocumentAtom.Sdk.Interfaces.IAtomMethods.ProcessPng(System.Byte[],System.Threading.CancellationToken)">
             <summary>
             Process PNG image and extract atoms.
             </summary>
-            <param name="data">PNG file data.</param>
+            <param name="data">PNG file data as byte array.</param>
             <param name="cancellationToken">Cancellation token.</param>
-            <returns>List of atoms.</returns>
+            <returns>List of extracted atoms.</returns>
         </member>
         <member name="M:DocumentAtom.Sdk.Interfaces.IAtomMethods.ProcessPowerPoint(System.Byte[],System.Boolean,System.Threading.CancellationToken)">
             <summary>
             Process PowerPoint document and extract atoms.
             </summary>
-            <param name="data">PowerPoint file data.</param>
-            <param name="extractOcr">Whether to extract atoms from images using OCR.</param>
+            <param name="data">PowerPoint file data as byte array.</param>
+            <param name="extractOcr">Whether to extract text from images using OCR.</param>
             <param name="cancellationToken">Cancellation token.</param>
-            <returns>List of atoms.</returns>
+            <returns>List of extracted atoms.</returns>
         </member>
         <member name="M:DocumentAtom.Sdk.Interfaces.IAtomMethods.ProcessRtf(System.Byte[],System.Boolean,System.Threading.CancellationToken)">
             <summary>
             Process RTF document and extract atoms.
             </summary>
-            <param name="data">RTF file data.</param>
-            <param name="extractOcr">Whether to extract atoms from images using OCR.</param>
+            <param name="data">RTF file data as byte array.</param>
+            <param name="extractOcr">Whether to extract text from images using OCR.</param>
             <param name="cancellationToken">Cancellation token.</param>
-            <returns>List of atoms.</returns>
+            <returns>List of extracted atoms.</returns>
         </member>
         <member name="M:DocumentAtom.Sdk.Interfaces.IAtomMethods.ProcessText(System.Byte[],System.Threading.CancellationToken)">
             <summary>
             Process text document and extract atoms.
             </summary>
-            <param name="data">Text file data.</param>
+            <param name="data">Text file data as byte array.</param>
             <param name="cancellationToken">Cancellation token.</param>
-            <returns>List of atoms.</returns>
+            <returns>List of extracted atoms.</returns>
         </member>
         <member name="M:DocumentAtom.Sdk.Interfaces.IAtomMethods.ProcessWord(System.Byte[],System.Boolean,System.Threading.CancellationToken)">
             <summary>
             Process Word document and extract atoms.
             </summary>
-            <param name="data">Word file data.</param>
-            <param name="extractOcr">Whether to extract atoms from images using OCR.</param>
+            <param name="data">Word file data as byte array.</param>
+            <param name="extractOcr">Whether to extract text from images using OCR.</param>
             <param name="cancellationToken">Cancellation token.</param>
-            <returns>List of atoms.</returns>
+            <returns>List of extracted atoms.</returns>
         </member>
         <member name="M:DocumentAtom.Sdk.Interfaces.IAtomMethods.ProcessXml(System.Byte[],System.Threading.CancellationToken)">
             <summary>
             Process XML document and extract atoms.
             </summary>
-            <param name="data">XML file data.</param>
+            <param name="data">XML file data as byte array.</param>
             <param name="cancellationToken">Cancellation token.</param>
-            <returns>List of atoms.</returns>
+            <returns>List of extracted atoms.</returns>
         </member>
         <member name="T:DocumentAtom.Sdk.Interfaces.IHealthMethods">
             <summary>
@@ -330,17 +326,17 @@
         </member>
         <member name="M:DocumentAtom.Sdk.Interfaces.IHealthMethods.IsHealthy(System.Threading.CancellationToken)">
             <summary>
-            Check if the DocumentAtom server is healthy and operational.
+            Check if the DocumentAtom server is healthy.
             </summary>
             <param name="cancellationToken">Cancellation token.</param>
-            <returns>True if healthy, false otherwise.</returns>
+            <returns>True if the server is healthy.</returns>
         </member>
         <member name="M:DocumentAtom.Sdk.Interfaces.IHealthMethods.GetStatus(System.Threading.CancellationToken)">
             <summary>
-            Get server status information.
+            Get the status of the DocumentAtom server.
             </summary>
             <param name="cancellationToken">Cancellation token.</param>
-            <returns>Server status information.</returns>
+            <returns>Server status as string.</returns>
         </member>
         <member name="T:DocumentAtom.Sdk.Interfaces.ITypeDetectionMethods">
             <summary>
@@ -349,10 +345,10 @@
         </member>
         <member name="M:DocumentAtom.Sdk.Interfaces.ITypeDetectionMethods.DetectType(System.Byte[],System.String,System.Threading.CancellationToken)">
             <summary>
-            Detect the type of document from file data.
+            Detect the type of a document based on its content.
             </summary>
-            <param name="data">File data.</param>
-            <param name="contentType">Content type of the file.</param>
+            <param name="data">Document data as byte array.</param>
+            <param name="contentType">Optional content type hint.</param>
             <param name="cancellationToken">Cancellation token.</param>
             <returns>Type detection result.</returns>
         </member>
